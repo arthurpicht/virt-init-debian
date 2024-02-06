@@ -1,0 +1,4 @@
+rootProject.name = 'virt-init-debian'
+includeBuild('../processExecutor')
+includeBuild('../linux-wrapper-core')
+

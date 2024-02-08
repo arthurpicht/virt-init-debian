@@ -1,7 +1,10 @@
-package org.mentalizr.provisioning.wrapper.virtInitDeb.config;
+package de.arthurpicht.virtInitDeb.config;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 import static de.arthurpicht.utils.core.assertion.MethodPreconditions.assertArgumentNotNull;
 
@@ -16,6 +19,8 @@ public class VmConfig {
     private final String networkDevice;
     private final String hostname;
     private final String domain;
+    private final List<SharedFolder> sharedFolderList;
+    public record SharedFolder(String sourceDir, String targetTag, boolean autoMount) {}
 
     public static class Builder {
 
@@ -24,10 +29,9 @@ public class VmConfig {
         private int diskSize = 24;
         private Path diskPath = null;
         private String networkDevice = "virbr0";
-
         private String hostname = null;
         private String domain;
-
+        private final List<SharedFolder> sharedFolderList = new ArrayList<>();
 
         /**
          * RAM in KB. Default: 2048;
@@ -97,6 +101,14 @@ public class VmConfig {
             return this;
         }
 
+        /**
+         * Default: none;
+         */
+        public Builder withSharedFolder(SharedFolder sharedFolder) {
+            this.sharedFolderList.add(sharedFolder);
+            return this;
+        }
+
         public VmConfig build(String vmName, String mac) {
             return new VmConfig(
                     vmName,
@@ -107,7 +119,8 @@ public class VmConfig {
                     mac,
                     this.networkDevice,
                     this.hostname,
-                    this.domain
+                    this.domain,
+                    this.sharedFolderList
             );
         }
     }
@@ -121,7 +134,9 @@ public class VmConfig {
             String mac,
             String networkDevice,
             String hostname,
-            String domain) {
+            String domain,
+            List<SharedFolder> sharedFolderList
+    ) {
         assertArgumentNotNull("vmName", vmName);
         assertArgumentNotNull("mac", mac);
         assertArgumentNotNull("network", networkDevice);
@@ -136,6 +151,7 @@ public class VmConfig {
         this.networkDevice = networkDevice;
         this.hostname = (hostname == null ? vmName : hostname);
         this.domain = (domain == null ? vmName + ".local" : domain);
+        this.sharedFolderList = Collections.unmodifiableList(sharedFolderList);
     }
 
     public String getVmName() {
@@ -173,4 +189,13 @@ public class VmConfig {
     public String getDomain() {
         return this.domain;
     }
+
+    public boolean hasSharedFolders() {
+        return !this.sharedFolderList.isEmpty();
+    }
+
+    public List<SharedFolder> getSharedFolderList() {
+        return this.sharedFolderList;
+    }
+
 }

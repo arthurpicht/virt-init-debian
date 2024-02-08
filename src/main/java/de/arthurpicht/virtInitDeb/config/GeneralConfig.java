@@ -1,6 +1,6 @@
-package org.mentalizr.provisioning.wrapper.virtInitDeb.config;
+package de.arthurpicht.virtInitDeb.config;
 
-import org.mentalizr.provisioning.wrapper.virtInitDeb.helper.FileHelper;
+import de.arthurpicht.virtInitDeb.helper.FileHelper;
 import org.slf4j.Logger;
 
 import java.nio.file.Path;
@@ -69,7 +69,8 @@ public class GeneralConfig {
                     this.outputToConsole,
                     this.tempDirParent,
                     this.waitForInstallationCompleted,
-                    this.keepTempDir);
+                    this.keepTempDir
+            );
         }
     }
 

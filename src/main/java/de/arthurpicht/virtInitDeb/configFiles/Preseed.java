@@ -1,8 +1,8 @@
-package org.mentalizr.provisioning.wrapper.virtInitDeb.configFiles;
+package de.arthurpicht.virtInitDeb.configFiles;
 
 import de.arthurpicht.utils.core.strings.StringSubstitutor;
 import de.arthurpicht.utils.core.strings.StringSubstitutorConfiguration;
-import org.mentalizr.provisioning.wrapper.virtInitDeb.config.InstallConfig;
+import de.arthurpicht.virtInitDeb.config.InstallConfig;
 
 public class Preseed {
 

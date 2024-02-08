@@ -1,4 +1,4 @@
-package org.mentalizr.provisioning.wrapper.virtInitDeb.helper;
+package de.arthurpicht.virtInitDeb.helper;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;

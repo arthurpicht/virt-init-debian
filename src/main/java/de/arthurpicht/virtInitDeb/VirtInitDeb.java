@@ -1,4 +1,4 @@
-package org.mentalizr.provisioning.wrapper.virtInitDeb;
+package de.arthurpicht.virtInitDeb;
 
 import de.arthurpicht.linuxWrapper.core.TarCreate;
 import de.arthurpicht.processExecutor.ProcessExecutionException;
@@ -7,15 +7,15 @@ import de.arthurpicht.processExecutor.outputHandler.generalOutputHandler.General
 import de.arthurpicht.processExecutor.outputHandler.generalOutputHandler.GeneralStandardOutHandler;
 import de.arthurpicht.utils.io.tempDir.TempDir;
 import de.arthurpicht.utils.io.tempDir.TempDirs;
-import org.mentalizr.provisioning.wrapper.virtInitDeb.config.GeneralConfig;
-import org.mentalizr.provisioning.wrapper.virtInitDeb.config.InstallConfig;
-import org.mentalizr.provisioning.wrapper.virtInitDeb.config.VmConfig;
-import org.mentalizr.provisioning.wrapper.virtInitDeb.configFiles.Postinst;
-import org.mentalizr.provisioning.wrapper.virtInitDeb.configFiles.Preseed;
-import org.mentalizr.provisioning.wrapper.virtInitDeb.core.Const;
-import org.mentalizr.provisioning.wrapper.virtInitDeb.core.VirtInitDebException;
-import org.mentalizr.provisioning.wrapper.virtInitDeb.core.VirtInstallWrapper;
-import org.mentalizr.provisioning.wrapper.virtInitDeb.helper.OutputHandlerHelper;
+import de.arthurpicht.virtInitDeb.configFiles.Postinst;
+import de.arthurpicht.virtInitDeb.configFiles.Preseed;
+import de.arthurpicht.virtInitDeb.core.Const;
+import de.arthurpicht.virtInitDeb.config.GeneralConfig;
+import de.arthurpicht.virtInitDeb.config.InstallConfig;
+import de.arthurpicht.virtInitDeb.config.VmConfig;
+import de.arthurpicht.virtInitDeb.core.VirtInitDebException;
+import de.arthurpicht.virtInitDeb.core.VirtInstallWrapper;
+import de.arthurpicht.virtInitDeb.helper.OutputHandlerHelper;
 
 import java.io.IOException;
 import java.nio.file.Files;

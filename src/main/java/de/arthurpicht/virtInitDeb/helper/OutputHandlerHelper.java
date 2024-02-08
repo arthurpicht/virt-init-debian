@@ -1,8 +1,8 @@
-package org.mentalizr.provisioning.wrapper.virtInitDeb.helper;
+package de.arthurpicht.virtInitDeb.helper;
 
 import de.arthurpicht.processExecutor.outputHandler.generalOutputHandler.GeneralStandardErrorHandler;
 import de.arthurpicht.processExecutor.outputHandler.generalOutputHandler.GeneralStandardOutHandler;
-import org.mentalizr.provisioning.wrapper.virtInitDeb.config.GeneralConfig;
+import de.arthurpicht.virtInitDeb.config.GeneralConfig;
 
 public class OutputHandlerHelper {
 

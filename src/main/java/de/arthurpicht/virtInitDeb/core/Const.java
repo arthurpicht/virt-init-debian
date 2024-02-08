@@ -1,4 +1,4 @@
-package org.mentalizr.provisioning.wrapper.virtInitDeb.core;
+package de.arthurpicht.virtInitDeb.core;
 
 public class Const {
 

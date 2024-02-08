@@ -2,8 +2,8 @@ plugins {
     id 'java'
 }
 
-group = 'org.mentalizr'
-version = '1.0-SNAPSHOT'
+group = 'com.github.arthurpicht'
+version = '0.0.1-SNAPSHOT'
 
 repositories {
     mavenCentral()
@@ -14,9 +14,8 @@ dependencies {
     implementation 'com.github.arthurpicht:utils-core:1.13.0'
     implementation 'com.github.arthurpicht:utils-io:0.0.18'
 
-    implementation 'com.github.arthurpicht:ap-processExecutor:0.0.5-SNAPSHOT'
+    implementation 'com.github.arthurpicht:processExecutor:0.0.5'
     implementation 'com.github.arthurpicht:ap-linux-wrapper-core:0.0.1-SNAPSHOT'
-
 
     implementation 'ch.qos.logback:logback-classic:1.4.12'
     implementation 'net.java.dev.jna:jna-platform-jpms:5.14.0'

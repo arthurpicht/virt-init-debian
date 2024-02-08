@@ -1,4 +1,8 @@
-package org.mentalizr.provisioning.wrapper.virtInitDeb.config;
+package de.arthurpicht.virtInitDeb.config;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 public class InstallConfig {
     private final String sshKeyPublic;
@@ -123,7 +127,8 @@ public class InstallConfig {
                     this.userName,
                     this.userPassword,
                     this.timeZone,
-                    this.staticIpConfiguration);
+                    this.staticIpConfiguration
+            );
         }
 
     }
@@ -139,7 +144,8 @@ public class InstallConfig {
             String userName,
             String userPassword,
             String timeZone,
-            StaticIpConfiguration staticIpConfiguration) {
+            StaticIpConfiguration staticIpConfiguration
+    ) {
 
         this.sshKeyPublic = sshKeyPublic;
         this.country = country;
@@ -197,6 +203,7 @@ public class InstallConfig {
     public boolean hasStaticIpConfiguration() {
         return this.staticIpConfiguration != null;
     }
+
     public StaticIpConfiguration getStaticIpConfiguration() {
         if (this.staticIpConfiguration == null)
             throw new IllegalStateException("StaticIpConfiguration is null. Check before calling.");

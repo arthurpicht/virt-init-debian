@@ -20,7 +20,6 @@ public class VmConfig {
     private final String hostname;
     private final String domain;
     private final List<SharedFolder> sharedFolderList;
-    public record SharedFolder(String sourceDir, String targetTag, boolean autoMount) {}
 
     public static class Builder {
 
@@ -66,19 +65,9 @@ public class VmConfig {
             return this;
         }
 
-//        /**
-//         * MAC-Address.
-//         */
-//        public Builder withMac(String mac) {
-//            this.mac = mac;
-//            return this;
-//        }
-
         /**
          * Connect VM to specified network device. See 'ip address' for network device names - not names as listed with
          * 'virsh net-list'. Default: virbr0
-         * @param networkDevice
-         * @return
          */
         public Builder withConnectionToNetworkDevice(String networkDevice) {
             this.networkDevice = networkDevice;

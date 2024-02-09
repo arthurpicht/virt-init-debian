@@ -7,7 +7,7 @@ import de.arthurpicht.processExecutor.outputHandler.generalOutputHandler.General
 import de.arthurpicht.processExecutor.outputHandler.generalOutputHandler.GeneralStandardOutHandler;
 import de.arthurpicht.virtInitDeb.config.GeneralConfig;
 import de.arthurpicht.virtInitDeb.config.VmConfig;
-import de.arthurpicht.virtInitDeb.config.VmConfig.SharedFolder;
+import de.arthurpicht.virtInitDeb.config.SharedFolder;
 import de.arthurpicht.virtInitDeb.helper.OutputHandlerHelper;
 
 import java.nio.file.Path;
@@ -39,7 +39,7 @@ public class VirtInstallWrapper {
                 "--name=" + this.vmConfig.getVmName() + " " +
                 "--ram=" + this.vmConfig.getRam() + " " +
                 "--vcpus=" + this.vmConfig.getCpus() + " " +
-                "--disk size=16,path=" + this.vmConfig.getDiskPath().toAbsolutePath() + ",bus=virtio,cache=none " +
+                "--disk size=" + this.vmConfig.getDiskSize() + ",path=" + this.vmConfig.getDiskPath().toAbsolutePath() + ",bus=virtio,cache=none " +
                 "--initrd-inject=" + tempDir.resolve(Const.PRESEED_FILE_NAME).toAbsolutePath() + " " +
                 "--initrd-inject=" + tempDir.resolve(Const.POSTINST_FILE_NAME).toAbsolutePath() + " " +
                 "--initrd-inject=" + tempDir.resolve(Const.POSTINST_TAR_GZ).toAbsolutePath() + " " +

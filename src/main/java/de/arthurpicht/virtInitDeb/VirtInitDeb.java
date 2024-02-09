@@ -9,6 +9,7 @@ import de.arthurpicht.utils.io.tempDir.TempDir;
 import de.arthurpicht.utils.io.tempDir.TempDirs;
 import de.arthurpicht.virtInitDeb.configFiles.Postinst;
 import de.arthurpicht.virtInitDeb.configFiles.Preseed;
+import de.arthurpicht.virtInitDeb.core.AwaitVmInstallation;
 import de.arthurpicht.virtInitDeb.core.Const;
 import de.arthurpicht.virtInitDeb.config.GeneralConfig;
 import de.arthurpicht.virtInitDeb.config.InstallConfig;
@@ -21,6 +22,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
+@SuppressWarnings("unused")
 public class VirtInitDeb {
 
     private static final String postinstSubDirName = "postinst";
@@ -47,7 +49,6 @@ public class VirtInitDeb {
     }
 
     public void execute() {
-
         Path postInstDir = createPostInstDir();
 
         createAuthorizedKeyFile(postInstDir);
@@ -61,9 +62,19 @@ public class VirtInitDeb {
         executeVirtInstall();
 
         if (this.generalConfig.hasLogger()) {
-            this.generalConfig.getLogger().info("The unattended debian installation process begins now and will take some minutes.");
-            this.generalConfig.getLogger().info("You can follow by connecting via virtual console: " +
-                                              "'virsh console " + this.vmConfig.getVmName() + "'");
+            this.generalConfig.getLogger().info(
+                    "The unattended debian installation process begins now and will take some minutes.");
+            this.generalConfig.getLogger().info(
+                    "You can follow by connecting via virtual console: 'virsh console "
+                    + this.vmConfig.getVmName() + "'");
+        }
+
+        if (this.generalConfig.isWaitForInstallationCompleted()) {
+            AwaitVmInstallation.execute(this.vmConfig.getVmName());
+            if (this.generalConfig.hasLogger()) {
+                this.generalConfig.getLogger().info("VM is shut down. Unattended creation of VM "
+                                                    + this.vmConfig.getVmName() + " finished.");
+            }
         }
     }
 
@@ -100,7 +111,7 @@ public class VirtInitDeb {
     }
 
     private void createPostinstFile() {
-        String postinst = new Postinst(this.installConfig).asString();
+        String postinst = new Postinst(this.vmConfig, this.installConfig).asString();
         Path postinstFile = this.tempDir.asPath().resolve(Const.POSTINST_FILE_NAME);
         try {
             Files.writeString(postinstFile, postinst);

@@ -65,7 +65,7 @@ public class VirtInitDeb {
             this.generalConfig.getLogger().info(
                     "The unattended debian installation process begins now and will take some minutes.");
             this.generalConfig.getLogger().info(
-                    "You can follow by connecting via virtual console: 'virsh console "
+                    "You can follow by connecting virtual console: 'virsh console "
                     + this.vmConfig.getVmName() + "'");
         }
 

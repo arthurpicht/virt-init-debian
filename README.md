@@ -1,5 +1,7 @@
 # virt-init-debian
 
+> This project is under development.
+
 A java lib for fully automated creation of qemu/KVM based VMs with unattended installation of Debian.
 
 Features:
@@ -20,7 +22,7 @@ GeneralConfig generalConfig = new GeneralConfig.Builder()
         .build();
 
 VmConfig vmConfig = new VmConfig.Builder()
-        .build("hello-world", "eb:3c:1a:c2:d2:36");
+        .build("hello-world");
 
 InstallConfig installConfig = new InstallConfig.Builder()
         .withUserFullName("Joe Dummy")
@@ -30,10 +32,27 @@ InstallConfig installConfig = new InstallConfig.Builder()
 new VirtInitDeb(generalConfig, vmConfig, installConfig).execute();
 ```
 
+## Build
+
+Simple `gradle` build as usual:
+
+    gradle jar
+
+JDK 17 and gradle 8.5 required
+
+## Configuration
+
+Configuration is done by three configuration classes each providing a respective builder. See javadocs for more info.
+
+* General configuration for `virt-init-debian`: [GeneralConfig](src/main/java/de/arthurpicht/virtInitDeb/config/GeneralConfig.java)
+* Configuration of the VM to be created: [VmConfig](src/main/java/de/arthurpicht/virtInitDeb/config/VmConfig.java)
+* Configuration of the preseeded Debian installation: [InstallConfig](src/main/java/de/arthurpicht/virtInitDeb/config/InstallConfig.java)
+
 ## Background
 
 This functionality implements a wrapper around `virt-install`. The unattended installation of Debian is done by taking
-advantage of the Debian preseed mechanism. Some further basic configuration of the newly created machine is done by a
+advantage of the Debian preseed mechanism. A preseed configuration file is generated an passed to virt-install.
+Some further basic configuration of the newly created machine is done by a
 post installation bash script which is injected by preseed.
 
 ## Shared folders
@@ -42,3 +61,8 @@ The shared folder option facilitates the virtiofs feature of qemu/kvm. When at l
 the vm will be configured for shared memory as well as the virtiofs filesystem is added. If a mountpoint is specified
 the respective directory is created and also an entry in /etc/fstab is generated. The shared folder will be mounted
 automatically on startup.
+
+## Acknowledgements
+
+This project is heavily inspired by https://github.com/pin/debian-vm-install, which provides a bash script for the
+same purpose.

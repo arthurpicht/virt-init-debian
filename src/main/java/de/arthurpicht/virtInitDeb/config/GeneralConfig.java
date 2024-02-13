@@ -4,6 +4,7 @@ import de.arthurpicht.virtInitDeb.helper.FileHelper;
 import org.slf4j.Logger;
 
 import java.nio.file.Path;
+import java.nio.file.Paths;
 
 public class GeneralConfig {
 
@@ -17,7 +18,7 @@ public class GeneralConfig {
 
         private Logger logger = null;
         private boolean outputToConsole = false;
-        private Path tempDirParent = null;
+        private Path tempDirParent = Paths.get("/var/tmp");
         private boolean waitForInstallationCompleted = false;
         private boolean keepTempDir = false;
 
@@ -38,7 +39,7 @@ public class GeneralConfig {
         }
 
         /**
-         * Parent directory for temp directory creation. Default: user home directory.
+         * Parent directory for temp directory creation. Default: /var/tmp.
          */
         public Builder withTempFileParent(Path tempDirParent) {
             this.tempDirParent = tempDirParent;

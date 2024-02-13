@@ -7,6 +7,7 @@ import java.util.Collections;
 import java.util.List;
 
 import static de.arthurpicht.utils.core.assertion.MethodPreconditions.assertArgumentNotNull;
+import static de.arthurpicht.utils.core.assertion.MethodPreconditions.assertArgumentNotNullAndNotEmpty;
 
 public class VmConfig {
 
@@ -27,6 +28,7 @@ public class VmConfig {
         private int cpus = 1;
         private int diskSize = 24;
         private Path diskPath = null;
+        private String mac = "RANDOM";
         private String networkDevice = "virbr0";
         private String hostname = null;
         private String domain;
@@ -66,6 +68,17 @@ public class VmConfig {
         }
 
         /**
+         * MAC address. 'RANDOM' or specified MAC address. MAC must begin with '52:54:00'. Default: RANDOM.
+         */
+        public Builder withMac(String mac) {
+            assertArgumentNotNullAndNotEmpty("mac", mac);
+            if (!mac.equals("RANDOM") && !mac.startsWith("52:54:00"))
+                throw new IllegalArgumentException("Specified MAC must be either 'RANDOM' or begin with '52:54:00'.");
+            this.mac = mac;
+            return this;
+        }
+
+        /**
          * Connect VM to specified network device. See 'ip address' for network device names - not names as listed with
          * 'virsh net-list'. Default: virbr0
          */
@@ -98,14 +111,14 @@ public class VmConfig {
             return this;
         }
 
-        public VmConfig build(String vmName, String mac) {
+        public VmConfig build(String vmName) {
             return new VmConfig(
                     vmName,
                     this.ram,
                     this.cpus,
                     this.diskSize,
                     this.diskPath,
-                    mac,
+                    this.mac,
                     this.networkDevice,
                     this.hostname,
                     this.domain,

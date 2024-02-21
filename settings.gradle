@@ -1,3 +1,2 @@
 rootProject.name = 'virt-init-debian'
-includeBuild('../linux-wrapper-core')
 

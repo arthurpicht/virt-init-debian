@@ -1,6 +1,9 @@
 package de.arthurpicht.virtInitDeb.config;
 
+import de.arthurpicht.utils.core.strings.Strings;
+
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -11,11 +14,13 @@ public class InstallConfig {
     private final String locale;
     private final String keyboard;
     private final String mirror;
+    private final String proxy;
     private final String rootPassword;
     private final String userFullName;
     private final String userName;
     private final String userPassword;
     private final String timeZone;
+    private final String aptPackages;
     private final StaticIpConfiguration staticIpConfiguration;
 
     public record StaticIpConfiguration(String ip, String netmask, String gateway, String nameserver) {}
@@ -26,11 +31,13 @@ public class InstallConfig {
         private String locale = "de_DE.UTF-8";
         private String keyboard = "de";
         private String mirror = "ftp.de.debian.org";
+        private String proxy = "";
         private String rootPassword = "secret";
         private String userFullName = "Joe Dummy";
         private String userName = "joe";
         private String userPassword = "secret";
         private String timeZone = "Europe/Berlin";
+        private String aptPackages = "";
         private StaticIpConfiguration staticIpConfiguration = null;
 
         /**
@@ -62,6 +69,11 @@ public class InstallConfig {
          */
         public Builder withMirror(String mirror) {
             this.mirror = mirror;
+            return this;
+        }
+
+        public Builder withProxy(String proxy) {
+            this.proxy = proxy;
             return this;
         }
 
@@ -107,6 +119,15 @@ public class InstallConfig {
         }
 
         /**
+         * Additional APT packages that will be installed during installation.
+         */
+        public Builder withAptPackages(String... aptPackages) {
+            List<String> aptPackagesList = Arrays.asList(aptPackages);
+            this.aptPackages = Strings.listing(aptPackagesList, " ");
+            return this;
+        }
+
+        /**
          * A static Ip configuration. Config file /etc/network/interfaces will be generated based hereon.
          * Default: IP-Configuration via DHCP
          */
@@ -122,11 +143,13 @@ public class InstallConfig {
                     this.locale,
                     this.keyboard,
                     this.mirror,
+                    this.proxy,
                     this.rootPassword,
                     this.userFullName,
                     this.userName,
                     this.userPassword,
                     this.timeZone,
+                    this.aptPackages,
                     this.staticIpConfiguration
             );
         }
@@ -139,11 +162,13 @@ public class InstallConfig {
             String locale,
             String keyboard,
             String mirror,
+            String proxy,
             String rootPassword,
             String userFullName,
             String userName,
             String userPassword,
             String timeZone,
+            String aptPackages,
             StaticIpConfiguration staticIpConfiguration
     ) {
 
@@ -152,11 +177,13 @@ public class InstallConfig {
         this.locale = locale;
         this.keyboard = keyboard;
         this.mirror = mirror;
+        this.proxy = proxy;
         this.rootPassword = rootPassword;
         this.userFullName = userFullName;
         this.userName = userName;
         this.userPassword = userPassword;
         this.timeZone = timeZone;
+        this.aptPackages = aptPackages;
         this.staticIpConfiguration = staticIpConfiguration;
     }
 
@@ -173,11 +200,15 @@ public class InstallConfig {
     }
 
     public String getKeyboard() {
-        return keyboard;
+        return this.keyboard;
     }
 
     public String getMirror() {
-        return mirror;
+        return this.mirror;
+    }
+
+    public String getProxy() {
+        return this.proxy;
     }
 
     public String getRootPassword() {
@@ -198,6 +229,10 @@ public class InstallConfig {
 
     public String getTimeZone() {
         return this.timeZone;
+    }
+
+    public String getAptPackages() {
+        return this.aptPackages;
     }
 
     public boolean hasStaticIpConfiguration() {

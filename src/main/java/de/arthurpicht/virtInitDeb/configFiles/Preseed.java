@@ -42,7 +42,7 @@ public class Preseed {
                 d-i mirror/country string manual
                 d-i mirror/http/hostname string {{MIRROR}}
                 d-i mirror/http/directory string /debian
-                d-i mirror/http/proxy string
+                d-i mirror/http/proxy string {{PROXY}}
                                 
                 # Root account setup. You can set password in plain-text or pre-encrypted.
                 # d-i passwd/root-login boolean false
@@ -79,7 +79,7 @@ public class Preseed {
                                 
                 # Individual additional packages to install.
                 # ACPI packages are needed for `virsh shutdown <domain>` to work.
-                d-i pkgsel/include string openssh-server ca-certificates acpid acpi-support-base
+                d-i pkgsel/include string openssh-server ca-certificates acpid acpi-support-base {{APT_PACKAGES}}
                 popularity-contest popularity-contest/participate boolean false
                                 
                 # Bootloader installation.

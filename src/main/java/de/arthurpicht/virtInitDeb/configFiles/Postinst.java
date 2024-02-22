@@ -29,6 +29,9 @@ public class Postinst {
         for (SharedFolder sharedFolder : this.vmConfig.getSharedFolderList()) {
             postinst.append(mountFilesystem(sharedFolder));
         }
+        if (this.installConfig.isUserSudo()) {
+            postinst.append(addUserToSudoGroup());
+        }
         return postinst.toString();
     }
 
@@ -73,6 +76,10 @@ public class Postinst {
         }
         string += "echo \"" + sharedFolder.targetTag() + " " + sharedFolder.mountPoint() + " virtiofs\" >> /etc/fstab\n";
         return string;
+    }
+
+    private String addUserToSudoGroup() {
+        return "\nadduser " + this.installConfig.getUserName() + " sudo\n";
     }
 
 }

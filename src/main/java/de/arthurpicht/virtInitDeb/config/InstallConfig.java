@@ -1,11 +1,10 @@
 package de.arthurpicht.virtInitDeb.config;
 
+import de.arthurpicht.utils.core.collection.Maps;
+import de.arthurpicht.utils.core.collection.Sets;
 import de.arthurpicht.utils.core.strings.Strings;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 public class InstallConfig {
     private final String sshKeyPublic;
@@ -19,8 +18,9 @@ public class InstallConfig {
     private final String userFullName;
     private final String userName;
     private final String userPassword;
+    private final boolean userSudo;
     private final String timeZone;
-    private final String aptPackages;
+    private final Set<String> aptPackages;
     private final StaticIpConfiguration staticIpConfiguration;
 
     public record StaticIpConfiguration(String ip, String netmask, String gateway, String nameserver) {}
@@ -36,8 +36,9 @@ public class InstallConfig {
         private String userFullName = "Joe Dummy";
         private String userName = "joe";
         private String userPassword = "secret";
+        private boolean userSudo = false;
         private String timeZone = "Europe/Berlin";
-        private String aptPackages = "";
+        private Set<String> aptPackages = new HashSet<>();
         private StaticIpConfiguration staticIpConfiguration = null;
 
         /**
@@ -110,6 +111,22 @@ public class InstallConfig {
         }
 
         /**
+         * Configure sudo for unprivileged user. Default: false;
+         */
+        public Builder withUserSudo(boolean userSudo) {
+            this.userSudo = userSudo;
+            return this;
+        }
+
+        /**
+         * Configure sudo for unprivileged user. Default: false;
+         */
+        public Builder withUserSudo() {
+            this.userSudo = true;
+            return this;
+        }
+
+        /**
          * See the contents of /usr/share/zoneinfo/ for valid values
          * Default: Europe/Berlin
          */
@@ -122,8 +139,7 @@ public class InstallConfig {
          * Additional APT packages that will be installed during installation.
          */
         public Builder withAptPackages(String... aptPackages) {
-            List<String> aptPackagesList = Arrays.asList(aptPackages);
-            this.aptPackages = Strings.listing(aptPackagesList, " ");
+            this.aptPackages = new LinkedHashSet<>(Arrays.asList(aptPackages));
             return this;
         }
 
@@ -148,6 +164,7 @@ public class InstallConfig {
                     this.userFullName,
                     this.userName,
                     this.userPassword,
+                    this.userSudo,
                     this.timeZone,
                     this.aptPackages,
                     this.staticIpConfiguration
@@ -167,8 +184,9 @@ public class InstallConfig {
             String userFullName,
             String userName,
             String userPassword,
+            boolean userSudo,
             String timeZone,
-            String aptPackages,
+            Set<String> aptPackages,
             StaticIpConfiguration staticIpConfiguration
     ) {
 
@@ -182,8 +200,9 @@ public class InstallConfig {
         this.userFullName = userFullName;
         this.userName = userName;
         this.userPassword = userPassword;
+        this.userSudo = userSudo;
         this.timeZone = timeZone;
-        this.aptPackages = aptPackages;
+        this.aptPackages = Collections.unmodifiableSet(aptPackages);
         this.staticIpConfiguration = staticIpConfiguration;
     }
 
@@ -227,11 +246,15 @@ public class InstallConfig {
         return this.userPassword;
     }
 
+    public boolean isUserSudo() {
+        return this.userSudo;
+    }
+
     public String getTimeZone() {
         return this.timeZone;
     }
 
-    public String getAptPackages() {
+    public Set<String> getAptPackages() {
         return this.aptPackages;
     }
 

@@ -6,14 +6,13 @@ import de.arthurpicht.processExecutor.ProcessResultCollection;
 import de.arthurpicht.processExecutor.outputHandler.generalOutputHandler.GeneralStandardErrorHandler;
 import de.arthurpicht.processExecutor.outputHandler.generalOutputHandler.GeneralStandardOutHandler;
 import de.arthurpicht.utils.io.tempDir.TempDir;
-import de.arthurpicht.utils.io.tempDir.TempDirs;
+import de.arthurpicht.virtInitDeb.config.GeneralConfig;
+import de.arthurpicht.virtInitDeb.config.InstallConfig;
+import de.arthurpicht.virtInitDeb.config.VmConfig;
 import de.arthurpicht.virtInitDeb.configFiles.Postinst;
 import de.arthurpicht.virtInitDeb.configFiles.Preseed;
 import de.arthurpicht.virtInitDeb.core.AwaitVmInstallation;
 import de.arthurpicht.virtInitDeb.core.Const;
-import de.arthurpicht.virtInitDeb.config.GeneralConfig;
-import de.arthurpicht.virtInitDeb.config.InstallConfig;
-import de.arthurpicht.virtInitDeb.config.VmConfig;
 import de.arthurpicht.virtInitDeb.core.VirtInitDebException;
 import de.arthurpicht.virtInitDeb.core.VirtInstallWrapper;
 import de.arthurpicht.virtInitDeb.helper.OutputHandlerHelper;
@@ -37,15 +36,11 @@ public class VirtInitDeb {
         this.generalConfig = generalConfig;
         this.vmConfig = vmConfig;
         this.installConfig = installConfig;
-        try {
-            if (generalConfig.isKeepTempDir()) {
-                this.tempDir = TempDirs.createUniqueTempDir(generalConfig.getTempDirParent());
-            } else {
-                this.tempDir = TempDirs.createUniqueTempDirAutoRemove(generalConfig.getTempDirParent());
-            }
-        } catch (IOException e) {
-            throw new VirtInitDebException(e.getMessage(), e);
-        }
+        this.tempDir = new TempDir.Creator()
+                .withParentDir(generalConfig.getTempDirParent())
+                .withTempDirPrefix("virt-init-debian-")
+                .withAutoRemove(!generalConfig.isKeepTempDir())
+                .create();
     }
 
     public void execute() {

@@ -12,7 +12,7 @@ repositories {
 
 dependencies {
     implementation 'com.github.arthurpicht:utils-core:1.13.0'
-    implementation 'com.github.arthurpicht:utils-io:0.0.18'
+    implementation 'com.github.arthurpicht:utils-io:0.0.20'
     implementation 'com.github.arthurpicht:processExecutor:0.0.5'
     implementation 'com.github.arthurpicht:linux-wrapper:0.0.1'
 

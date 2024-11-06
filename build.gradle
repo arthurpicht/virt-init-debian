@@ -1,29 +1,54 @@
 plugins {
     id 'java'
+    id 'maven-publish'
 }
 
-group = 'com.github.arthurpicht'
-version = '0.0.2-SNAPSHOT'
+group = 'de.arthurpicht'
+version = '0.0.2'
+def artifact = 'ap-virt-init-debian'
 
 repositories {
+    maven { url "https://raw.githubusercontent.com/arthurpicht/mvn-repo/main/releases"}
     mavenCentral()
-    maven { url "https://jitpack.io" }
 }
 
 dependencies {
-    implementation 'com.github.arthurpicht:utils-core:1.13.0'
-    implementation 'com.github.arthurpicht:utils-io:0.0.20'
-    implementation 'com.github.arthurpicht:processExecutor:0.0.5'
-    implementation 'com.github.arthurpicht:linux-wrapper:0.0.2'
+    implementation 'de.arthurpicht:ap-utils-core:1.19.0'
+    implementation 'de.arthurpicht:ap-utils-io:0.0.23'
+    implementation 'de.arthurpicht:ap-process-executor:0.0.7'
+    implementation 'de.arthurpicht:ap-linux-wrapper:0.0.7'
 
     implementation 'ch.qos.logback:logback-classic:1.4.12'
     implementation 'net.java.dev.jna:jna-platform-jpms:5.14.0'
     implementation 'org.libvirt:libvirt:0.5.2'
 
-    testImplementation platform('org.junit:junit-bom:5.9.1')
+    testImplementation platform('org.junit:junit-bom:5.11.3')
     testImplementation 'org.junit.jupiter:junit-jupiter'
+}
+
+java {
+    withJavadocJar()
+    withSourcesJar()
 }
 
 test {
     useJUnitPlatform()
+}
+
+base {
+    archivesName = artifact
+}
+
+publishing {
+    publications {
+        maven(MavenPublication) {
+            artifactId = artifact
+            from components.java
+        }
+    }
+    repositories {
+        maven {
+            url = layout.buildDirectory.dir(project.gradle.gradleUserHomeDir.parent + "/gitrepos/ap/mvn-repo/releases")
+        }
+    }
 }
